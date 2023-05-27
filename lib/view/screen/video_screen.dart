@@ -1,6 +1,5 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_clone/constans.dart';
 import 'package:tiktok_clone/controller/video_controller.dart';
@@ -8,10 +7,9 @@ import 'package:tiktok_clone/view/screen/comment_screen.dart';
 import 'package:tiktok_clone/view/screen/search_screen.dart';
 import 'package:tiktok_clone/view/widgets/circle_animation.dart';
 import 'package:tiktok_clone/view/widgets/video_player_item.dart';
-import 'package:video_player/video_player.dart';
 
 class VideoScreen extends StatefulWidget {
-  VideoScreen({super.key});
+  const VideoScreen({super.key});
 
   @override
   State<VideoScreen> createState() => _VideoScreenState();
@@ -90,11 +88,17 @@ class _VideoScreenState extends State<VideoScreen>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        leading: UnconstrainedBox(
+          
+          child: Image.asset('assets/images/live_icon.png',
+          
+          width: 27))
+        ,
         foregroundColor: Colors.white,
         title: TabBar(
           dividerColor: Colors.transparent,
           indicatorColor: Colors.white,
-          indicatorPadding: EdgeInsets.symmetric(horizontal: 18),
+          indicatorPadding: const EdgeInsets.symmetric(horizontal: 18),
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white54,
           controller: tabController,
@@ -158,14 +162,14 @@ class _VideoScreenState extends State<VideoScreen>
                               children: [
                                 Text(
                                   data.username,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   data.caption,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
                                       fontWeight: FontWeight.normal),
@@ -174,7 +178,7 @@ class _VideoScreenState extends State<VideoScreen>
                                   children: [
                                     Text(
                                       data.songName,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 11,
                                           fontWeight: FontWeight.bold),
