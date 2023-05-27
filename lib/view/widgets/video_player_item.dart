@@ -1,8 +1,5 @@
-import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerItem extends StatefulWidget {
@@ -89,14 +86,16 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
               child: Visibility(
                   replacement: const Icon(
                     Icons.pause_rounded,
-                    color: Colors.white,
-                    size: 25,
+                    color: Colors.white30,
+                    size: 60,
                   ),
                   visible: visibility,
                   child: const Icon(
-                    Icons.play_arrow,
-                    color: Colors.white,
-                  )),
+                      Icons.play_arrow_rounded,
+                      size: 60,
+                      color: Colors.white30,
+                    ),
+                  ),
             ),
           )
         ],
