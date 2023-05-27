@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Comment {
   final String username;
   final String comment;
-  final datePublished;
+  final Timestamp datePublished;
   final List likes;
   final String profileImg;
   final String uid;
@@ -24,7 +24,7 @@ class Comment {
         'comment': comment,
         'datePublished': datePublished,
         'likes': likes,
-        'profile': profileImg,
+        'profileImg': profileImg,
         'uid': uid,
         'id': id
       };

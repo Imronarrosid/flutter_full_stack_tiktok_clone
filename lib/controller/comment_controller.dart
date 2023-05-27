@@ -42,7 +42,7 @@ class CommentController extends GetxController {
           profileImg: (userDoc.data()! as dynamic)['profileImg'],
           uid: authController.user.uid,
           id: 'Comment $len',
-          datePublished: DateTime.now());
+          datePublished: Timestamp.fromDate( DateTime.now()));
 
           await firestore.collection('videos').doc(_postId).collection('comments').doc('Comment $len').set(comment.toJson());
 
@@ -57,6 +57,26 @@ class CommentController extends GetxController {
 
       Get.snackbar('Komentar error', e.toString());
       
+    }
+  }
+
+  likeComment(String id) async {
+    var uid = authController.user.uid;
+    DocumentSnapshot doc =await firestore.collection('videos').doc(_postId).collection('comments').doc(id).get();
+  
+    if ((doc.data()! as dynamic)['likes'].contains(uid) ) {
+      firestore.collection('videos').doc(_postId).collection('comments').doc(id).update({
+        'likes':FieldValue.arrayRemove([uid]),
+
+      });
+      
+      
+    }else{
+      firestore.collection('videos').doc(_postId).collection('comments').doc(id).update({
+        'likes':FieldValue.arrayUnion([uid]),
+
+      });
+
     }
   }
 }

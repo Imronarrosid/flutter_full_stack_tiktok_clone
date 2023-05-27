@@ -32,6 +32,7 @@ class Video {
         "id": id,
         "likes": likes,
         "commentCount": commentCount,
+        "shareCount":shareCount,
         "songName": songName,
         "caption": caption,
         "videoUrl": videoUrl,
@@ -43,14 +44,15 @@ class Video {
     return Video(
         username: snap["username"],
         uid: snap["uid"],
-        id: snap["id"],
-        songName: snap["songName"],
-        caption: snap["caption"],
-        thumnail: snap["thumnail"],
-        videoUrl: snap["videoUrl"],
         profileImg: snap["profileImg"],
+        id: snap["id"],
         likes: snap["likes"],
         commentCount: snap["commentCount"],
-        shareCount: snap["shareCount"]);
+        shareCount: snap["shareCount"],
+        songName: snap["songName"],
+        caption: snap["caption"],
+        videoUrl: snap["videoUrl"],
+        thumnail: snap["thumnail"],
+        );
   }
 }

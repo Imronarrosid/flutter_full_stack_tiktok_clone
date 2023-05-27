@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/constans.dart';
 import 'package:tiktok_clone/view/screen/auth/signup_screen.dart';
 import 'package:tiktok_clone/view/widgets/form_field.dart';
 
@@ -39,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 50),
                       maximumSize: Size(double.infinity, 50)),
-                  onPressed: () {},
+                  onPressed: () => authController.signIn(_emailController.text, _passwordController.text),
                   child: Text('login')),
                   const SizedBox(height: 20,),
 

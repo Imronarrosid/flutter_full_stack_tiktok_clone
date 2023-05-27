@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/controller/upload_video_controller.dart';
 import 'package:tiktok_clone/view/widgets/form_field.dart';
 import 'package:video_player/video_player.dart';
 
@@ -27,7 +28,11 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     controller.initialize();
     controller.play();
     controller.setVolume(1);
-    controller.setLooping(true);
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -56,7 +61,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     child: CustomFormField(controller: captionController, labelText: 'Caption',prefixIcon:Icons.closed_caption),
                   ),
                   const SizedBox(height: 25,),
-                  ElevatedButton(onPressed: (){}, child: const Text('Upload'))
+                  ElevatedButton(onPressed: ()=> UploadVideoController().uploapVideo(songController.text, captionController.text, widget.videoPath,widget.videeFile), child: const Text('Upload'))
               ]),
             )
         ]),

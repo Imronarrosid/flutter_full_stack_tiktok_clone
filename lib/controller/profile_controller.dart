@@ -96,15 +96,15 @@ class ProfileController extends GetxController {
         .set({});
           await firestore
         .collection('user')
-        .doc(_uid.value)
-        .collection('followers')
+        .doc(authController.user.uid)
+        .collection('following')
         .doc(authController.user.uid)
         .set({});
         _user.value.update('followers', (value) => (int.parse(value)+1).toString(),);
         }else{
               await firestore
         .collection('user')
-        .doc(_uid.value)
+        .doc(authController.user.uid)
         .collection('following')
         .doc(authController.user.uid)
         .delete();
