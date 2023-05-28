@@ -134,16 +134,18 @@ class ProfileController extends GetxController {
         .child('profilePics')
         .child(firebaseAuth.currentUser!.uid);
 
+        Get.back();
+        Get.back();
         UploadTask uploadTask = ref.putFile(image);
         TaskSnapshot snap = await uploadTask.whenComplete(() => null);
         if (snap.state == TaskState.success) {
+          Get.snackbar('Berhasil mengganti foto', '');
         _user.value.update('profileImg', (value) => snap.ref.getDownloadURL());
         await firestore.collection('user').doc(firebaseAuth.currentUser!.uid).update({
           'profileImg': await snap.ref.getDownloadURL()
         });
         await getUserData();
         update();
-        Get.back();
 
         }
 

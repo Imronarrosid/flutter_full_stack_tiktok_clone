@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SimpleDialogOption(
                   onPressed: () async =>
                       await picImage(ImageSource.gallery, context),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.image),
                       Text('Galeri'),
@@ -48,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SimpleDialogOption(
                   onPressed: () async =>
                       await picImage(ImageSource.camera, context),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.camera_alt),
                       Text('Kamera'),
@@ -57,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 SimpleDialogOption(
                   onPressed: () => Navigator.pop(context),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.cancel),
                       Text('Batal'),
@@ -134,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 5,
                         ),
                         Text('@${controller.user['username']}',
-                            style: TextStyle(fontSize: 18)),
+                            style: const TextStyle(fontSize: 18)),
                         const SizedBox(
                           height: 15,
                         ),
@@ -238,15 +237,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     fontSize: 15, fontWeight: FontWeight.bold),
                               ))),
                         ),
+                        const SizedBox(height: 15,),
                         GridView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 1),
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: controller.user['thumnails'].length,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 1,
-                                    crossAxisSpacing: 5),
+                                    crossAxisCount: 3,
+                                    childAspectRatio: 4/6,
+                                    crossAxisSpacing: 1),
                             itemBuilder: (_, index) {
                               String thumbnail =
                                   controller.user['thumnails'][index];

@@ -13,9 +13,17 @@ class ProfileConfirmScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit Profile'),
+      ),
       body: Column(
         children: [
-          Image.file(image),
+          Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(15),
+            child: ClipOval(
+              child: Image.file(image)),
+          ),
           const SizedBox(
             height: 25,
           ),
