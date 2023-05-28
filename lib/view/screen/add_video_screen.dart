@@ -54,8 +54,13 @@ class AddVideoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Container(child:  Center(
-      child: ElevatedButton(onPressed: ()=>showOptionDialog(context), child: Text('Upload')),
-    ));
+    return Scaffold(
+      appBar: AppBar(title:const Text('Upload video') ,),
+      body: Container(
+        color: Colors.white,
+        child:  Center(
+        child: ElevatedButton(onPressed: ()=>showOptionDialog(context), child: const Text('Upload vidio')),
+      )),
+    );
   }
 }

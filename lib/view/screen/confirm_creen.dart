@@ -37,6 +37,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Konfirmasi')),
       body: SingleChildScrollView(
         child: Column(children: [
           const SizedBox(height: 25,),
