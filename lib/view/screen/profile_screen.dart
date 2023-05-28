@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,12 +21,24 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final ProfileController profileController = Get.put(ProfileController());
+  bool _isVerified = false;
+  _checkVerified() async {
+    final userData = await firestore.collection('user').doc(widget.uid).get();
+    var data = userData.data();
+    if (data!.containsKey('isVerified') && userData['isVerified']==true) {
+      _isVerified = true;
+    } else {
+      _isVerified = false;
+    }
+  }
 
   picImage(ImageSource source, BuildContext context) async {
     final image = await ImagePicker().pickImage(source: source);
     if (image != null && context.mounted) {
-      
-     Navigator.push(context, MaterialPageRoute(builder: (_)=>ProfileConfirmScreen(image:File(image.path))));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => ProfileConfirmScreen(image: File(image.path))));
     }
   }
 
@@ -70,6 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    _checkVerified();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       profileController.updateUserId(widget.uid);
     });
@@ -132,8 +146,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Text('@${controller.user['username']}',
-                            style: const TextStyle(fontSize: 18)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('@${controller.user['username']}',
+                                style: const TextStyle(fontSize: 18)),
+                            _isVerified
+                                ? Image.asset(
+                                    'assets/images/blue_check.png',
+                                    fit: BoxFit.cover,
+                                    width: 15,
+                                    height: 15,
+                                  )
+                                : Container()
+                          ],
+                        ),
                         const SizedBox(
                           height: 15,
                         ),
@@ -237,16 +264,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     fontSize: 15, fontWeight: FontWeight.bold),
                               ))),
                         ),
-                        const SizedBox(height: 15,),
+                        const SizedBox(
+                          height: 15,
+                        ),
                         GridView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 1),
+                            padding: const EdgeInsets.symmetric(horizontal: 1),
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: controller.user['thumnails'].length,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
-                                    childAspectRatio: 4/6,
+                                    childAspectRatio: 4 / 6,
                                     crossAxisSpacing: 1),
                             itemBuilder: (_, index) {
                               String thumbnail =
