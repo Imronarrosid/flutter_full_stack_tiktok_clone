@@ -71,9 +71,9 @@ class _VideoScreenState extends State<VideoScreen>
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
-              child: const Image(
+              child: Image(
                 image: NetworkImage(
-                    'https://static.vecteezy.com/system/resources/previews/007/619/838/original/vinyl-disc-record-for-music-album-cover-design-vector.jpg'),
+                    profileImg),
               ),
             ),
           )
@@ -196,7 +196,7 @@ class _VideoScreenState extends State<VideoScreen>
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   buildProfile(
-                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png'),
+                                      data.profileImg),
                                   Expanded(
                                     child: SizedBox(
                                       height: double.infinity,
@@ -272,7 +272,7 @@ class _VideoScreenState extends State<VideoScreen>
                                                 bottom: 5),
                                             child: CircleAnimation(
                                                 child: buildMusicAlbum(
-                                                    'profile photo')),
+                                                    data.profileImg)),
                                           )
                                         ],
                                       ),
