@@ -68,7 +68,7 @@ class UploadVideoController extends GetxController {
           caption: caption,
           thumnail: thumnail,
           videoUrl: videoUrl,
-          profileImg: ' afj',
+          profileImg:  (userDoc.data()! as Map<String , dynamic>)['profileImg'],
           likes: [],
           commentCount: 0,
           shareCount: 0);
