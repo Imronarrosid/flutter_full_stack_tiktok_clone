@@ -1,4 +1,8 @@
+
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_clone/constans.dart';
 
@@ -87,37 +91,62 @@ class ProfileController extends GetxController {
         .collection('followers')
         .doc(authController.user.uid)
         .get();
-        if (!doc.exists) {
-          await firestore
-        .collection('user')
-        .doc(_uid.value)
-        .collection('followers')
-        .doc(authController.user.uid)
-        .set({});
-          await firestore
-        .collection('user')
-        .doc(authController.user.uid)
-        .collection('following')
-        .doc(authController.user.uid)
-        .set({});
-        _user.value.update('followers', (value) => (int.parse(value)+1).toString(),);
-        }else{
-              await firestore
-        .collection('user')
-        .doc(authController.user.uid)
-        .collection('following')
-        .doc(authController.user.uid)
-        .delete();
-          await firestore
-        .collection('user')
-        .doc(_uid.value)
-        .collection('followers')
-        .doc(authController.user.uid)
-        .delete();
-        _user.value.update('followers', (value) => (int.parse(value)-1).toString());
-        }
-      _user.value.update('isFollowing', (value) => !value);
-      update();
+    if (!doc.exists) {
+      await firestore
+          .collection('user')
+          .doc(_uid.value)
+          .collection('followers')
+          .doc(authController.user.uid)
+          .set({});
+      await firestore
+          .collection('user')
+          .doc(authController.user.uid)
+          .collection('following')
+          .doc(authController.user.uid)
+          .set({});
+      _user.value.update(
+        'followers',
+        (value) => (int.parse(value) + 1).toString(),
+      );
+    } else {
+      await firestore
+          .collection('user')
+          .doc(authController.user.uid)
+          .collection('following')
+          .doc(authController.user.uid)
+          .delete();
+      await firestore
+          .collection('user')
+          .doc(_uid.value)
+          .collection('followers')
+          .doc(authController.user.uid)
+          .delete();
+      _user.value
+          .update('followers', (value) => (int.parse(value) - 1).toString());
+    }
+    _user.value.update('isFollowing', (value) => !value);
+    update();
   }
 
+  Future<void>changeProfileImg(File image) async {
+    Reference ref = firebaseStorage
+        .ref()
+        .child('profilePics')
+        .child(firebaseAuth.currentUser!.uid);
+
+        UploadTask uploadTask = ref.putFile(image);
+        TaskSnapshot snap = await uploadTask.whenComplete(() => null);
+        if (snap.state == TaskState.success) {
+        _user.value.update('profileImg', (value) => snap.ref.getDownloadURL());
+        await firestore.collection('user').doc(firebaseAuth.currentUser!.uid).update({
+          'profileImg': await snap.ref.getDownloadURL()
+        });
+        await getUserData();
+        update();
+        Get.back();
+
+        }
+
+
+  }
 }

@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:tiktok_clone/constans.dart';
 import 'package:tiktok_clone/controller/profile_controller.dart';
+import 'package:tiktok_clone/view/screen/profile_confirm_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -22,13 +23,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ProfileController profileController = Get.put(ProfileController());
 
   picImage(ImageSource source, BuildContext context) async {
-    final galleryVideo = await ImagePicker().pickImage(source: source);
-    if (galleryVideo != null && context.mounted) {
-      await profileController.changeProfileImg(File(galleryVideo.path));
-
-      if (context.mounted) {
-        Navigator.pop(context);
-      }
+    final image = await ImagePicker().pickImage(source: source);
+    if (image != null && context.mounted) {
+      
+     Navigator.push(context, MaterialPageRoute(builder: (_)=>ProfileConfirmScreen(image:File(image.path))));
     }
   }
 
@@ -38,7 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (_) => SimpleDialog(
               children: [
                 SimpleDialogOption(
-                  onPressed: () => picImage(ImageSource.gallery, context),
+                  onPressed: () async =>
+                      await picImage(ImageSource.gallery, context),
                   child: Row(
                     children: [
                       Icon(Icons.image),
@@ -47,7 +46,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 SimpleDialogOption(
-                  onPressed: () => picImage(ImageSource.camera, context),
+                  onPressed: () async =>
+                      await picImage(ImageSource.camera, context),
                   child: Row(
                     children: [
                       Icon(Icons.camera_alt),
