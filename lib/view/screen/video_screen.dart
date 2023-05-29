@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_clone/constans.dart';
@@ -72,8 +71,7 @@ class _VideoScreenState extends State<VideoScreen>
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: Image(
-                image: NetworkImage(
-                    profileImg),
+                image: NetworkImage(profileImg),
               ),
             ),
           )
@@ -88,12 +86,10 @@ class _VideoScreenState extends State<VideoScreen>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         leading: UnconstrainedBox(
-          
-          child: Image.asset('assets/images/live_icon.png',
-          
-          width: 27))
-        ,
+            child: Image.asset('assets/images/live_icon.png', width: 27)),
         foregroundColor: Colors.white,
         title: TabBar(
           dividerColor: Colors.transparent,
@@ -113,7 +109,8 @@ class _VideoScreenState extends State<VideoScreen>
             child: InkWell(
               borderRadius: BorderRadius.circular(50),
               onTap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => SearchScreen())),
+                  context, MaterialPageRoute(builder: (_) { 
+                    return SearchScreen();})),
               child: const SizedBox(
                 height: 40,
                 width: 40,
@@ -125,7 +122,6 @@ class _VideoScreenState extends State<VideoScreen>
             ),
           )
         ],
-        backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,
       body: Obx(() {
@@ -134,6 +130,7 @@ class _VideoScreenState extends State<VideoScreen>
             controller: PageController(initialPage: 0, viewportFraction: 1),
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
+              
               final data = videoControler.videoList[index];
               return Stack(
                 children: [
@@ -195,8 +192,7 @@ class _VideoScreenState extends State<VideoScreen>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  buildProfile(
-                                      data.profileImg),
+                                  buildProfile(data.profileImg),
                                   Expanded(
                                     child: SizedBox(
                                       height: double.infinity,
