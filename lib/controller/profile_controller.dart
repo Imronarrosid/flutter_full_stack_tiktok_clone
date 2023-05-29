@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,9 +13,6 @@ class ProfileController extends GetxController {
   final Rx<String> _uid = "".obs;
   updateUserId(String id) {
     _uid.value = id;
-    print('test print id $id');
-    print('test print user $user');
-    print('test print _user ${_user.value}');
     getUserData();
   }
 
@@ -26,7 +22,6 @@ class ProfileController extends GetxController {
         .collection('videos')
         .where('uid', isEqualTo: _uid.value)
         .get();
-    print(' test print myVideos $myVideos');
 
     for (var i = 0; i < myVideos.docs.length; i++) {
       thumbnails.add((myVideos.docs[i].data() as dynamic)['thumnail']);
@@ -128,27 +123,25 @@ class ProfileController extends GetxController {
     update();
   }
 
-  Future<void>changeProfileImg(File image) async {
+  Future<void> changeProfileImg(File image) async {
     Reference ref = firebaseStorage
         .ref()
         .child('profilePics')
         .child(firebaseAuth.currentUser!.uid);
 
-        Get.back();
-        Get.back();
-        UploadTask uploadTask = ref.putFile(image);
-        TaskSnapshot snap = await uploadTask.whenComplete(() => null);
-        if (snap.state == TaskState.success) {
-          Get.snackbar('Berhasil mengganti foto', '');
-        _user.value.update('profileImg', (value) => snap.ref.getDownloadURL());
-        await firestore.collection('user').doc(firebaseAuth.currentUser!.uid).update({
-          'profileImg': await snap.ref.getDownloadURL()
-        });
-        await getUserData();
-        update();
-
-        }
-
-
+    Get.back();
+    Get.back();
+    UploadTask uploadTask = ref.putFile(image);
+    TaskSnapshot snap = await uploadTask.whenComplete(() => null);
+    if (snap.state == TaskState.success) {
+      Get.snackbar('Berhasil mengganti foto', '');
+      _user.value.update('profileImg', (value) => snap.ref.getDownloadURL());
+      await firestore
+          .collection('user')
+          .doc(firebaseAuth.currentUser!.uid)
+          .update({'profileImg': await snap.ref.getDownloadURL()});
+      await getUserData();
+      update();
+    }
   }
 }
