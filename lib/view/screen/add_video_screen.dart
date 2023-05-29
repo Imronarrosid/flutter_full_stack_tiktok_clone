@@ -62,10 +62,46 @@ class AddVideoScreen extends StatelessWidget {
       ),
       body: Container(
           color: Colors.white,
+          width: MediaQuery.of(context).size.width,
           child: Center(
-            child: ElevatedButton(
-                onPressed: () => showOptionDialog(context),
-                child: const Text('Upload vidio')),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  splashColor: Colors.black12,
+                  onTap: () => picVideo(ImageSource.gallery, context),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    height: 30,
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.image,size:40),
+                        Text('Galeri'),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                InkWell(
+                  onTap: () => picVideo(ImageSource.camera, context),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    height: 30,
+                    child: const Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.camera_alt,size:40),
+                        Text('Kamera'),
+                      ],
+                    ),
+                  ),
+                ),
+                
+              ],
+            ),
           )),
     );
   }
