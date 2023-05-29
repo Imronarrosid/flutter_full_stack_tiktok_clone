@@ -258,12 +258,15 @@ class _VideoScreenState extends State<VideoScreen>
                                           ),
                                           InkWell(
                                             onTap: () => Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        CommentScreeen(
-                                                          id: data.id,
-                                                        ))),
+                                              context,
+                                              MaterialPageRoute(builder: (_) {
+                                                _controllerProvider
+                                                    .pauseVideo();
+                                                return CommentScreeen(
+                                                  id: data.id,
+                                                );
+                                              }),
+                                            ),
                                             child: const Icon(Icons.comment,
                                                 size: 35, color: Colors.white),
                                           ),
