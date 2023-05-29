@@ -34,6 +34,7 @@ class CommentScreeen extends StatelessWidget {
         title: const Text('Komentar'),
       ),
       body: Container(
+        width: size.width,
         color: Colors.white,
         child: Obx(() {
           return ListView.builder(
@@ -41,7 +42,6 @@ class CommentScreeen extends StatelessWidget {
               itemCount: commentController.comments.length,
               itemBuilder: (context, index) {
                 final comment = commentController.comments[index];
-                print(commentController.comments.length);
                 return ListTile(
                   leading: CircleAvatar(
                     backgroundColor: Colors.black,
