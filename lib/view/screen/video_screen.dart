@@ -18,7 +18,8 @@ class VideoScreen extends StatefulWidget {
 class _VideoScreenState extends State<VideoScreen>
     with SingleTickerProviderStateMixin {
   final VideoControler videoControler = Get.put(VideoControler());
-  final VideoPlayerControllerProvider _controllerProvider = Get.put(VideoPlayerControllerProvider());
+  final VideoPlayerControllerProvider _controllerProvider =
+      Get.put(VideoPlayerControllerProvider());
 
   late TabController tabController;
 
@@ -26,6 +27,16 @@ class _VideoScreenState extends State<VideoScreen>
   void initState() {
     super.initState();
     tabController = TabController(initialIndex: 1, length: 2, vsync: this);
+  }
+
+  Future<bool> _checkVerified(String uid) async {
+    final userData = await firestore.collection('user').doc(uid).get();
+    var data = userData.data();
+    if (data!.containsKey('isVerified') && userData['isVerified'] == true) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   buildProfile(String profileImg) {
@@ -110,10 +121,11 @@ class _VideoScreenState extends State<VideoScreen>
             padding: const EdgeInsets.only(right: 10.0),
             child: InkWell(
               borderRadius: BorderRadius.circular(50),
-              onTap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (_) { 
-                    _controllerProvider.pauseVideo();
-                    return SearchScreen();})),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                _controllerProvider.pauseVideo();
+                return SearchScreen();
+              })),
               child: const SizedBox(
                 height: 40,
                 width: 40,
@@ -133,7 +145,6 @@ class _VideoScreenState extends State<VideoScreen>
             controller: PageController(initialPage: 0, viewportFraction: 1),
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
-              
               final data = videoControler.videoList[index];
               return Stack(
                 children: [
@@ -160,13 +171,33 @@ class _VideoScreenState extends State<VideoScreen>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(
-                                  data.username,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                                FutureBuilder(
+                                    future: _checkVerified(data.uid),
+                                    builder: (_, AsyncSnapshot<bool> snapshot) {
+                                      var isVerified = snapshot.data;
+                                      return snapshot.hasData
+                                          ? Row(
+                                              children: [
+                                                Text(
+                                                  data.username,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                isVerified!
+                                                    ? Image.asset(
+                                                        'assets/images/blue_check.png',
+                                                        height: 20,
+                                                      )
+                                                    : Container()
+                                              ],
+                                            )
+                                          : Container(
+                                              height: 20,
+                                            );
+                                    }),
                                 Text(
                                   data.caption,
                                   style: const TextStyle(
