@@ -24,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   _checkVerified(String uid) async {
     final userData = await firestore.collection('user').doc(uid).get();
     var data = userData.data();
-    if ( data!.containsKey('isVerified') && userData['isVerified']==true) {
+    if (data!.containsKey('isVerified') && userData['isVerified'] == true) {
       _isVerified = true;
     } else {
       _isVerified = false;
@@ -84,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       profileController.updateUserId(widget.uid);
-    _checkVerified(widget.uid);
+      _checkVerified(widget.uid);
     });
   }
 
@@ -95,7 +95,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return GetBuilder<ProfileController>(
         init: ProfileController(),
         builder: (controller) {
-          print(controller.user['username']);
           if (controller.user.isEmpty) {
             // Show a loading indicator or placeholder content while data is being fetched
             return Container(
