@@ -182,14 +182,14 @@ class _VideoScreenState extends State<VideoScreen>
                                                   data.username,
                                                   style: const TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 20,
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                                 isVerified!
                                                     ? Image.asset(
                                                         'assets/images/blue_check.png',
-                                                        height: 20,
+                                                        height: 15,
                                                       )
                                                     : Container()
                                               ],
