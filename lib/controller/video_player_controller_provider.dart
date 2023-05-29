@@ -5,7 +5,7 @@ class VideoPlayerControllerProvider extends GetxController {
   late VideoPlayerController videoController;
 
   void pauseVideo() {
-    if (videoController != null && videoController.value.isPlaying) {
+    if (videoController.value.isPlaying) {
       videoController.pause();
     }
   }
