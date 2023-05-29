@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,10 +21,10 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final ProfileController profileController = Get.put(ProfileController());
   bool _isVerified = false;
-  _checkVerified() async {
-    final userData = await firestore.collection('user').doc(widget.uid).get();
+  _checkVerified(String uid) async {
+    final userData = await firestore.collection('user').doc(uid).get();
     var data = userData.data();
-    if (data!.containsKey('isVerified') && userData['isVerified']==true) {
+    if ( data!.containsKey('isVerified') && userData['isVerified']==true) {
       _isVerified = true;
     } else {
       _isVerified = false;
@@ -83,9 +82,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _checkVerified();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       profileController.updateUserId(widget.uid);
+    _checkVerified(widget.uid);
     });
   }
 
