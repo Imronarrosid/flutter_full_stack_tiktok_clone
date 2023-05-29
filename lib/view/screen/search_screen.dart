@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_clone/constans.dart';
@@ -28,20 +27,22 @@ class SearchScreen extends StatelessWidget {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
           title: TextFormField(
             controller: _searchController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               filled: false,
               hintText: 'Cari',
               hintStyle: TextStyle(fontSize: 18, color: Colors.black38),
             ),
-            onFieldSubmitted: (value) => searchController.searchUser(value!),
+            onFieldSubmitted: (value) => searchController.searchUser(value),
           ),
         ),
         body: searchController.searcheduser.isEmpty
             ? const Center(
                 child: Text(
-                  'Cari  user!',
+                  'Cari  nama!',
                   style: TextStyle(
                       fontSize: 25,
                       color: Colors.black,
@@ -66,23 +67,29 @@ class SearchScreen extends StatelessWidget {
                           initialData: false,
                           builder: (_, AsyncSnapshot<bool> snapshot) {
                             bool isVerified = snapshot.data!;
-                            return snapshot.hasData? Row(
-                              children: [
-                                Text(
-                                  user.username,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                isVerified ? Image.asset(
-                                  'assets/images/blue_check.png',
-                                  fit: BoxFit.cover,
-                                  width: 15,
-                                  height: 15,
-                                ):Container(height:15),
-                              ],
-                            ): Container(height: 15,);
+                            return snapshot.hasData
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        user.username,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      isVerified
+                                          ? Image.asset(
+                                              'assets/images/blue_check.png',
+                                              fit: BoxFit.cover,
+                                              width: 15,
+                                              height: 15,
+                                            )
+                                          : Container(height: 15),
+                                    ],
+                                  )
+                                : Container(
+                                    height: 15,
+                                  );
                           }),
                     ),
                   );
