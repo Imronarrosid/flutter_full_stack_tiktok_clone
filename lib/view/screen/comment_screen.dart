@@ -12,13 +12,27 @@ class CommentScreeen extends StatelessWidget {
   final CommentController commentController = Get.put(CommentController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  Future<bool> _checkVerified(String uid) async {
+    final userData = await firestore.collection('user').doc(uid).get();
+    var data = userData.data();
+    if (data!.containsKey('isVerified') && userData['isVerified'] == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     commentController.updatePostId(id);
     tago.setLocaleMessages('id', tago.IdMessages());
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        title: const Text('Komentar'),
+      ),
       body: Container(
         color: Colors.white,
         child: Obx(() {
@@ -38,13 +52,37 @@ class CommentScreeen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        comment.username,
-                        style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500),
-                      ),
+                      FutureBuilder(
+                          future: _checkVerified(comment.uid),
+                          initialData: false,
+                          builder: (_, AsyncSnapshot<bool> snapshot) {
+                            bool isVerified = snapshot.data!;
+                            return snapshot.hasData
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        comment.username,
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      isVerified
+                                          ? Image.asset(
+                                              'assets/images/blue_check.png',
+                                              fit: BoxFit.cover,
+                                              width: 15,
+                                              height: 15,
+                                            )
+                                          : Container(
+                                              height: 15,
+                                            )
+                                    ],
+                                  )
+                                : Container(
+                                    height: 20,
+                                  );
+                          }),
                       Text(
                         comment.comment,
                         style: const TextStyle(height: 0.5),
@@ -98,6 +136,9 @@ class CommentScreeen extends StatelessWidget {
             key: _formKey,
             child: ListTile(
               title: TextFormField(
+                autocorrect: true,
+                autofocus: true,
+                textCapitalization: TextCapitalization.sentences,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Tidak boleh kosong';
