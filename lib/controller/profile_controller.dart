@@ -11,7 +11,7 @@ class ProfileController extends GetxController {
 
   Map<String, dynamic> get user => _user.value;
 
-  Rx<String> _uid = "".obs;
+  final Rx<String> _uid = "".obs;
   updateUserId(String id) {
     _uid.value = id;
     print('test print id $id');
