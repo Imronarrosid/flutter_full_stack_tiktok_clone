@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_clone/constans.dart';
 import 'package:tiktok_clone/controller/video_controller.dart';
+import 'package:tiktok_clone/controller/video_player_controller_provider.dart';
 import 'package:tiktok_clone/view/screen/comment_screen.dart';
 import 'package:tiktok_clone/view/screen/search_screen.dart';
 import 'package:tiktok_clone/view/widgets/circle_animation.dart';
@@ -17,6 +18,7 @@ class VideoScreen extends StatefulWidget {
 class _VideoScreenState extends State<VideoScreen>
     with SingleTickerProviderStateMixin {
   final VideoControler videoControler = Get.put(VideoControler());
+  final VideoPlayerControllerProvider _controllerProvider = Get.put(VideoPlayerControllerProvider());
 
   late TabController tabController;
 
@@ -110,6 +112,7 @@ class _VideoScreenState extends State<VideoScreen>
               borderRadius: BorderRadius.circular(50),
               onTap: () => Navigator.push(
                   context, MaterialPageRoute(builder: (_) { 
+                    _controllerProvider.pauseVideo();
                     return SearchScreen();})),
               child: const SizedBox(
                 height: 40,

@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tiktok_clone/controller/video_player_controller_provider.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerItem extends StatefulWidget {
@@ -11,8 +12,9 @@ class VideoPlayerItem extends StatefulWidget {
 }
 
 class _VideoPlayerItemState extends State<VideoPlayerItem> {
+  final VideoPlayerControllerProvider _controllerProvider =
+      Get.find<VideoPlayerControllerProvider>();
   late VideoPlayerController videoPlayerController;
-  bool play = true;
   bool visibility = false;
   double opacity = 0.0;
   bool _isVideoEnded = false;
@@ -24,13 +26,13 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
       ..initialize().then((value) {
         videoPlayerController.play();
         videoPlayerController.setVolume(1);
+        _controllerProvider.videoController = videoPlayerController;
       });
     videoPlayerController.addListener(() {
       final isVideoEnded = videoPlayerController.value.position >=
           videoPlayerController.value.duration;
       if (isVideoEnded) {
         _isVideoEnded = true;
-        play = false;
       }
     });
   }
@@ -46,29 +48,26 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        if (play && _isVideoEnded == false) {
+        if (videoPlayerController.value.isPlaying && _isVideoEnded == false) {
           setState(() {
             videoPlayerController.pause();
-            play = false;
             visibility = true;
 
             opacity = 1;
           });
-        } else if (_isVideoEnded && play == false) {
+        } else if (_isVideoEnded && !videoPlayerController.value.isPlaying) {
           setState(() {
             videoPlayerController.play();
-            play = true;
             visibility = false;
             opacity = 0;
-            _isVideoEnded=false;
+            _isVideoEnded = false;
           });
-        } else if (play == false) {
+        } else if (!videoPlayerController.value.isPlaying) {
           setState(() {
             videoPlayerController.play();
-            play = true;
             visibility = false;
             opacity = 0;
-            _isVideoEnded=false;
+            _isVideoEnded = false;
           });
         }
       },
@@ -84,18 +83,18 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
               duration: const Duration(milliseconds: 300),
               opacity: opacity,
               child: Visibility(
-                  replacement: const Icon(
-                    Icons.pause_rounded,
-                    color: Colors.white30,
-                    size: 60,
-                  ),
-                  visible: visibility,
-                  child: const Icon(
-                      Icons.play_arrow_rounded,
-                      size: 60,
-                      color: Colors.white30,
-                    ),
-                  ),
+                replacement: const Icon(
+                  Icons.pause_rounded,
+                  color: Colors.white30,
+                  size: 60,
+                ),
+                visible: visibility,
+                child: const Icon(
+                  Icons.play_arrow_rounded,
+                  size: 60,
+                  color: Colors.white30,
+                ),
+              ),
             ),
           )
         ],
