@@ -106,6 +106,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
+                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.white,
                 centerTitle: true,
                 actions: const [Icon(Icons.more_horiz)],
                 title: Text(
