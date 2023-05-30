@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_clone/constans.dart';
 import 'package:tiktok_clone/controller/video_controller.dart';
+import 'package:tiktok_clone/controller/video_player_controller_provider.dart';
 import 'package:tiktok_clone/view/screen/comment_screen.dart';
 import 'package:tiktok_clone/view/screen/search_screen.dart';
 import 'package:tiktok_clone/view/widgets/circle_animation.dart';
@@ -18,6 +19,8 @@ class VideoScreen extends StatefulWidget {
 class _VideoScreenState extends State<VideoScreen>
     with SingleTickerProviderStateMixin {
   final VideoControler videoControler = Get.put(VideoControler());
+  final VideoPlayerControllerProvider _controllerProvider =
+      Get.put(VideoPlayerControllerProvider());
 
   late TabController tabController;
 
@@ -25,6 +28,16 @@ class _VideoScreenState extends State<VideoScreen>
   void initState() {
     super.initState();
     tabController = TabController(initialIndex: 1, length: 2, vsync: this);
+  }
+
+  Future<bool> _checkVerified(String uid) async {
+    final userData = await firestore.collection('user').doc(uid).get();
+    var data = userData.data();
+    if (data!.containsKey('isVerified') && userData['isVerified'] == true) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   buildProfile(String profileImg) {
@@ -71,9 +84,8 @@ class _VideoScreenState extends State<VideoScreen>
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
-              child: const Image(
-                image: NetworkImage(
-                    'https://static.vecteezy.com/system/resources/previews/007/619/838/original/vinyl-disc-record-for-music-album-cover-design-vector.jpg'),
+              child: Image(
+                image: NetworkImage(profileImg),
               ),
             ),
           )
@@ -88,12 +100,13 @@ class _VideoScreenState extends State<VideoScreen>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.black
+        ),
         leading: UnconstrainedBox(
-          
-          child: Image.asset('assets/images/live_icon.png',
-          
-          width: 27))
-        ,
+            child: Image.asset('assets/images/live_icon.png', width: 27)),
         foregroundColor: Colors.white,
         title: TabBar(
           dividerColor: Colors.transparent,
@@ -112,8 +125,11 @@ class _VideoScreenState extends State<VideoScreen>
             padding: const EdgeInsets.only(right: 10.0),
             child: InkWell(
               borderRadius: BorderRadius.circular(50),
-              onTap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => SearchScreen())),
+              onTap: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                _controllerProvider.pauseVideo();
+                return SearchScreen();
+              })),
               child: const SizedBox(
                 height: 40,
                 width: 40,
@@ -125,7 +141,6 @@ class _VideoScreenState extends State<VideoScreen>
             ),
           )
         ],
-        backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,
       body: Obx(() {
@@ -160,13 +175,33 @@ class _VideoScreenState extends State<VideoScreen>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(
-                                  data.username,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                                FutureBuilder(
+                                    future: _checkVerified(data.uid),
+                                    builder: (_, AsyncSnapshot<bool> snapshot) {
+                                      var isVerified = snapshot.data;
+                                      return snapshot.hasData
+                                          ? Row(
+                                              children: [
+                                                Text(
+                                                  data.username,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                isVerified!
+                                                    ? Image.asset(
+                                                        'assets/images/blue_check.png',
+                                                        height: 15,
+                                                      )
+                                                    : Container()
+                                              ],
+                                            )
+                                          : Container(
+                                              height: 20,
+                                            );
+                                    }),
                                 Text(
                                   data.caption,
                                   style: const TextStyle(
@@ -195,8 +230,7 @@ class _VideoScreenState extends State<VideoScreen>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  buildProfile(
-                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png'),
+                                  buildProfile(data.profileImg),
                                   Expanded(
                                     child: SizedBox(
                                       height: double.infinity,
@@ -228,12 +262,15 @@ class _VideoScreenState extends State<VideoScreen>
                                           ),
                                           InkWell(
                                             onTap: () => Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        CommentScreeen(
-                                                          id: data.id,
-                                                        ))),
+                                              context,
+                                              MaterialPageRoute(builder: (_) {
+                                                _controllerProvider
+                                                    .pauseVideo();
+                                                return CommentScreeen(
+                                                  id: data.id,
+                                                );
+                                              }),
+                                            ),
                                             child: const Icon(Icons.comment,
                                                 size: 35, color: Colors.white),
                                           ),
@@ -272,7 +309,7 @@ class _VideoScreenState extends State<VideoScreen>
                                                 bottom: 5),
                                             child: CircleAnimation(
                                                 child: buildMusicAlbum(
-                                                    'profile photo')),
+                                                    data.profileImg)),
                                           )
                                         ],
                                       ),

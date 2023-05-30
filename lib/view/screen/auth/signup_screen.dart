@@ -12,18 +12,18 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Tiktok Clone')),
+      appBar: AppBar(title: const Text('Tiktok Clone')),
       body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
-              Text(
-                'Register',
+              const Text(
+                'Buat Akun',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               CustomFormField(
                   controller: _nameController,
-                  labelText: 'Username',
+                  labelText: 'Nama',
                   prefixIcon: Icons.person),
               const SizedBox(
                 height: 15,
@@ -46,25 +46,24 @@ class SignUpScreen extends StatelessWidget {
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 50),
-                      maximumSize: Size(double.infinity, 50)),
+                      minimumSize: const Size(double.infinity, 50),
+                      maximumSize: const Size(double.infinity, 50)),
                   onPressed: () => authController.registerUser(
                       _nameController.text,
                       _emailController.text,
                       _passwordController.text),
-                  child: Text('Register')),
+                  child: const Text('Buat akun')),
               const SizedBox(
                 height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Alredy have an account?'),
+                  const Text('Sudah punya akun?'),
                   InkWell(
                     onTap: () {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (_) => LoginScreen()));
-                      print('regiss');
                     },
                     child: const Text(
                       'Login',

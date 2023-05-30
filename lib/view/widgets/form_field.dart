@@ -7,12 +7,12 @@ class CustomFormField extends StatelessWidget {
   final IconData prefixIcon;
   final bool obscureText;
 
-  CustomFormField(
+  const CustomFormField(
       {super.key,
       required this.controller,
       required this.labelText,
       required this.prefixIcon,
-       this.obscureText = false});
+      this.obscureText = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,8 @@ class CustomFormField extends StatelessWidget {
       decoration: InputDecoration(
           labelText: labelText,
           prefixIcon: Icon(prefixIcon),
-          labelStyle: TextStyle(fontSize: 20),
-          focusedBorder: 
-          OutlineInputBorder(
+          labelStyle: const TextStyle(fontSize: 20),
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),
             borderSide: BorderSide(
               color: borderColorFocus,

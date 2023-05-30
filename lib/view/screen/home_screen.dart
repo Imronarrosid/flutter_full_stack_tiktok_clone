@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:tiktok_clone/constans.dart';
 import 'package:tiktok_clone/view/widgets/custom_icon.dart';
 

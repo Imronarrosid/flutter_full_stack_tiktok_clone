@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:tiktok_clone/constans.dart';
 import 'package:tiktok_clone/model/user.dart' as model;
-import 'package:tiktok_clone/view/screen/auth/login_screen.dart';
 import 'package:tiktok_clone/view/screen/auth/signup_screen.dart';
 import 'package:tiktok_clone/view/screen/home_screen.dart';
 
@@ -26,7 +24,7 @@ class AuthController extends GetxController {
     if (user == null) {
       Get.offAll(() => SignUpScreen());
     } else {
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => const HomeScreen());
     }
   }
 
@@ -55,7 +53,6 @@ class AuthController extends GetxController {
       if (email.isNotEmpty && password.isNotEmpty) {
         await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
-        print('LogIn Success');
       } else {
         Get.snackbar('LogIn error', 'Tolong isi semua');
       }

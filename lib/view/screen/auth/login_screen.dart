@@ -11,12 +11,12 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Tiktok Clone')),
+      appBar: AppBar(title: const Text('Tiktok Clone')),
       body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Login',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
@@ -38,26 +38,30 @@ class LoginScreen extends StatelessWidget {
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 50),
-                      maximumSize: Size(double.infinity, 50)),
-                  onPressed: () => authController.signIn(_emailController.text, _passwordController.text),
-                  child: Text('login')),
-                  const SizedBox(height: 20,),
-
-                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                        const Text('Don\'t have an account?'),
-                      
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>SignUpScreen()));
-                          print('regiss');
-                        },
-                        child: const Text('Register',style: TextStyle(color: Colors.blue),),
-                      )
-                    ],
+                      minimumSize: const Size(double.infinity, 50),
+                      maximumSize: const Size(double.infinity, 50)),
+                  onPressed: () => authController.signIn(
+                      _emailController.text, _passwordController.text),
+                  child: const Text('Login')),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Belum punya akun?'),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (_) => SignUpScreen()));
+                    },
+                    child: const Text(
+                      'Buat akun',
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   )
+                ],
+              )
             ],
           )),
     );
