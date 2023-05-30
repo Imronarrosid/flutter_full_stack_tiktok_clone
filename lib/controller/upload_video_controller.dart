@@ -43,7 +43,7 @@ class UploadVideoController extends GetxController {
 
   //Upload video
   uploapVideo(
-      String songName, String caption, String videoPath, File videoFile) async {
+      String songName, String caption, String videoPath) async {
     try {
       Get.back();
       Get.back();
