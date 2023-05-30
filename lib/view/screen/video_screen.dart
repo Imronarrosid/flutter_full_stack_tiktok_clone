@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tiktok_clone/constans.dart';
 import 'package:tiktok_clone/controller/video_controller.dart';
@@ -101,6 +102,9 @@ class _VideoScreenState extends State<VideoScreen>
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.black
+        ),
         leading: UnconstrainedBox(
             child: Image.asset('assets/images/live_icon.png', width: 27)),
         foregroundColor: Colors.white,
