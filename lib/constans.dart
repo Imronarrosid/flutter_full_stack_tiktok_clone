@@ -15,7 +15,7 @@ List<Widget> pages = [
   const ShopScreen(),
   const AddVideoScreen(),
   const MessageScreen(),
-  ProfileScreen(uid: authController.user.uid)
+  ProfileScreen(uid: firebaseAuth.currentUser!.uid)
 ];
 
 //COLOR
