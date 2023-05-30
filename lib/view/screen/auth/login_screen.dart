@@ -42,21 +42,21 @@ class LoginScreen extends StatelessWidget {
                       maximumSize: const Size(double.infinity, 50)),
                   onPressed: () => authController.signIn(
                       _emailController.text, _passwordController.text),
-                  child: const Text('login')),
+                  child: const Text('Login')),
               const SizedBox(
                 height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Don\'t have an account?'),
+                  const Text('Belum punya akun?'),
                   InkWell(
                     onTap: () {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (_) => SignUpScreen()));
                     },
                     child: const Text(
-                      'Register',
+                      'Buat akun',
                       style: TextStyle(color: Colors.blue),
                     ),
                   )

@@ -18,12 +18,12 @@ class SignUpScreen extends StatelessWidget {
           child: Column(
             children: [
               const Text(
-                'Register',
+                'Buat Akun',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               CustomFormField(
                   controller: _nameController,
-                  labelText: 'Username',
+                  labelText: 'Nama',
                   prefixIcon: Icons.person),
               const SizedBox(
                 height: 15,
@@ -52,14 +52,14 @@ class SignUpScreen extends StatelessWidget {
                       _nameController.text,
                       _emailController.text,
                       _passwordController.text),
-                  child: const Text('Register')),
+                  child: const Text('Buat akun')),
               const SizedBox(
                 height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Alredy have an account?'),
+                  const Text('Sudah punya akun?'),
                   InkWell(
                     onTap: () {
                       Navigator.pushReplacement(context,
