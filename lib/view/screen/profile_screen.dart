@@ -20,14 +20,14 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final ProfileController profileController = Get.put(ProfileController());
-  bool _isVerified = false;
-  _checkVerified(String uid) async {
+
+  Future<bool>_checkVerified(String uid) async {
     final userData = await firestore.collection('user').doc(uid).get();
     var data = userData.data();
     if (data!.containsKey('isVerified') && userData['isVerified'] == true) {
-      _isVerified = true;
+      return true;
     } else {
-      _isVerified = false;
+      return false;
     }
   }
 
@@ -82,10 +82,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
       profileController.updateUserId(widget.uid);
       _checkVerified(widget.uid);
-    });
   }
 
   @override
@@ -146,20 +144,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('@${controller.user['username']}',
-                                style: const TextStyle(fontSize: 18)),
-                            _isVerified
-                                ? Image.asset(
-                                    'assets/images/blue_check.png',
-                                    fit: BoxFit.cover,
-                                    width: 15,
-                                    height: 15,
-                                  )
-                                : Container()
-                          ],
+                        FutureBuilder(
+                          future: _checkVerified(widget.uid),
+                          initialData: false,
+                          builder: (_,AsyncSnapshot<bool> snapshot) {
+                            var isVerified = snapshot.data;
+                            return snapshot.hasData ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('@${controller.user['username']}',
+                                    style: const TextStyle(fontSize: 18)),
+                                isVerified!
+                                    ? Image.asset(
+                                        'assets/images/blue_check.png',
+                                        fit: BoxFit.cover,
+                                        width: 15,
+                                        height: 15,
+                                      )
+                                    : Container(width:15)
+                              ],
+                            ): Container(height: 18,);
+                          }
                         ),
                         const SizedBox(
                           height: 15,
