@@ -58,6 +58,8 @@ class AddVideoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         title: const Text('Upload video'),
       ),
       body: Container(
@@ -71,35 +73,38 @@ class AddVideoScreen extends StatelessWidget {
                   splashColor: Colors.black12,
                   onTap: () => picVideo(ImageSource.gallery, context),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    alignment: Alignment.centerLeft,
                     height: 30,
+                    width: 100,
                     child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.image,size:40),
+                        Icon(Icons.image, size: 40),
                         Text('Galeri'),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 InkWell(
                   onTap: () => picVideo(ImageSource.camera, context),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    alignment: Alignment.centerLeft,
+                    width: 100,
                     height: 30,
                     child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.camera_alt,size:40),
+                        Icon(Icons.camera_alt, size: 40),
                         Text('Kamera'),
                       ],
                     ),
                   ),
                 ),
-                
               ],
             ),
           )),
