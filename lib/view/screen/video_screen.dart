@@ -24,6 +24,8 @@ class _VideoScreenState extends State<VideoScreen>
 
   late TabController tabController;
 
+  bool favoriteIconVisibility = false;
+
   @override
   void initState() {
     super.initState();
@@ -102,9 +104,8 @@ class _VideoScreenState extends State<VideoScreen>
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.black
-        ),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.black),
         leading: UnconstrainedBox(
             child: Image.asset('assets/images/live_icon.png', width: 27)),
         foregroundColor: Colors.white,
@@ -152,8 +153,23 @@ class _VideoScreenState extends State<VideoScreen>
               final data = videoControler.videoList[index];
               return Stack(
                 children: [
-                  VideoPlayerItem(
-                    videoUrl: data.videoUrl,
+                  GestureDetector(
+                    onDoubleTap: () {
+                      videoControler.doubleTaplikeVideo(data.id);
+
+                      setState(() {
+                        favoriteIconVisibility = true;
+                      });
+
+                      Future.delayed(Duration(milliseconds: 300), () {
+                        setState(() {
+                          favoriteIconVisibility = false;
+                        });
+                      });
+                    },
+                    child: VideoPlayerItem(
+                      videoUrl: data.videoUrl,
+                    ),
                   ),
                   Column(
                     children: [
@@ -320,6 +336,11 @@ class _VideoScreenState extends State<VideoScreen>
                         ],
                       ))
                     ],
+                  ),
+                  Center(
+                    child: Visibility(
+                        visible: favoriteIconVisibility,
+                        child: const Icon(Icons.favorite_rounded,size: 60,color:Colors.red)),
                   )
                 ],
               );
