@@ -249,7 +249,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 47,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.black12)),
+                              color:  widget.uid == authController.user.uid ? null :controller.user['isFollowing']? null : Colors.red,
+                              border:  Border.all(color: controller.user['isFollowing']? Colors.black12 : Colors.transparent)),
                           child: InkWell(
                               onTap: () {
                                 if (widget.uid == authController.user.uid) {
@@ -265,7 +266,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     : controller.user['isFollowing']
                                         ? 'Unfollow'
                                         : 'Follow',
-                                style: const TextStyle(
+                                style:  TextStyle(
+                                  color: controller.user['isFollowing'] ?  Colors.black : Colors.white ,
                                     fontSize: 15, fontWeight: FontWeight.bold),
                               ))),
                         ),

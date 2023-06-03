@@ -161,7 +161,7 @@ class _VideoScreenState extends State<VideoScreen>
                         favoriteIconVisibility = true;
                       });
 
-                      Future.delayed(Duration(milliseconds: 300), () {
+                      Future.delayed(const Duration(milliseconds: 300), () {
                         setState(() {
                           favoriteIconVisibility = false;
                         });
