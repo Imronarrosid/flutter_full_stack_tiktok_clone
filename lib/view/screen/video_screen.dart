@@ -340,8 +340,10 @@ class _VideoScreenState extends State<VideoScreen>
                   Center(
                     child: Visibility(
                         visible: favoriteIconVisibility,
+
                         child: const Icon(Icons.favorite_rounded,
-                            size: 60, color: Colors.red)),
+                            size: 60, color: Colors.red))),
+
                   )
                 ],
               );
