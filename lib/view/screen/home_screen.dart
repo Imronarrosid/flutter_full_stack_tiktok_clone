@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constans.dart';
 import 'package:tiktok_clone/view/widgets/custom_icon.dart';
+import 'package:tiktok_clone/view/widgets/icon.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
             selectedFontSize: 12,
             items: [
               const BottomNavigationBarItem(
-                  icon: Icon(Icons.home), label: 'Beranda'),
+                  icon: Icon(TikTokIcons.home), label: 'Beranda'),
               const BottomNavigationBarItem(
                   icon: Icon(Icons.shopping_bag_outlined), label: 'Shop'),
               BottomNavigationBarItem(
@@ -46,9 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 label: '',
               ),
               const BottomNavigationBarItem(
-                  icon: Icon(Icons.message), label: 'Kotak masuk'),
+                  icon: Icon(TikTokIcons.messages), label: 'Kotak masuk'),
               const BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'Profil')
+                  icon: Icon(TikTokIcons.profile), label: 'Profil')
             ],
             currentIndex: _selectedIndex,
             onTap: (index) {
