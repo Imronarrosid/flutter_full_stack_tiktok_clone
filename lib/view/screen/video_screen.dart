@@ -7,6 +7,7 @@ import 'package:tiktok_clone/controller/video_player_controller_provider.dart';
 import 'package:tiktok_clone/view/screen/comment_screen.dart';
 import 'package:tiktok_clone/view/screen/search_screen.dart';
 import 'package:tiktok_clone/view/widgets/circle_animation.dart';
+import 'package:tiktok_clone/view/widgets/icon.dart';
 import 'package:tiktok_clone/view/widgets/video_player_item.dart';
 
 class VideoScreen extends StatefulWidget {
@@ -135,8 +136,8 @@ class _VideoScreenState extends State<VideoScreen>
                 height: 40,
                 width: 40,
                 child: Icon(
-                  Icons.search_rounded,
-                  size: 34,
+                  TikTokIcons.search,
+                  size: 30,
                 ),
               ),
             ),
@@ -259,7 +260,7 @@ class _VideoScreenState extends State<VideoScreen>
                                             onTap: () => videoControler
                                                 .likeVideo(data.id),
                                             child: Icon(
-                                              Icons.favorite,
+                                              TikTokIcons.heart,
                                               size: 35,
                                               color: data.likes.contains(
                                                       authController.user.uid)
@@ -287,8 +288,10 @@ class _VideoScreenState extends State<VideoScreen>
                                                 );
                                               }),
                                             ),
-                                            child: const Icon(Icons.comment,
-                                                size: 35, color: Colors.white),
+                                            child: const Icon(
+                                                TikTokIcons.chatBubble,
+                                                size: 35,
+                                                color: Colors.white),
                                           ),
                                           Text(
                                             data.commentCount.toString(),
@@ -301,13 +304,10 @@ class _VideoScreenState extends State<VideoScreen>
                                           ),
                                           InkWell(
                                             onTap: () {},
-                                            child: Transform.flip(
-                                              flipX: true,
-                                              child: const Icon(
-                                                Icons.reply,
-                                                size: 35,
-                                                color: Colors.white,
-                                              ),
+                                            child: const Icon(
+                                              TikTokIcons.reply,
+                                              size: 26,
+                                              color: Colors.white,
                                             ),
                                           ),
                                           Text(
@@ -340,7 +340,8 @@ class _VideoScreenState extends State<VideoScreen>
                   Center(
                     child: Visibility(
                         visible: favoriteIconVisibility,
-                        child: const Icon(Icons.favorite_rounded,size: 60,color:Colors.red)),
+                        child: const Icon(Icons.favorite_rounded,
+                            size: 60, color: Colors.red)),
                   )
                 ],
               );
