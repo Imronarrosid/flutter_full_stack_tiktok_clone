@@ -23,6 +23,7 @@ TikTok Clone using Flutter as a front-end and Firebase as a back-end
 - Profile photo update.
 
 ## Dependencies
+- get: ^4.6.5
 - firebase_core: ^2.13.0
 - firebase_storage: ^11.2.1
 - firebase_auth: ^4.6.1
